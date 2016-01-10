@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html lang="en" ng-app="garageApp">
+	<head>
+		<title>The Garage - Directory</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="garageApp.css">
+		<link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
+	</head>
+
+	<body layout="row" ng-controller="MainCtrl">
+		<md-sidenav md-component-id="left" md-is-locked-open="true" class="md-sidenav-left md-whiteframe-4dp">
+			<header>
+				<a ng-href="/GarageDirectory" class="logo">
+					<img src="assets/TheGarage.png" alt="The Garage Logo">
+				</a>
+			</header>
+
+			<md-content flex role="navigation">
+				<ul class="menu">
+					<li ng-repeat="section in menu.sections">
+						<h2 class="menu-heading">{{section.heading}}</h2>
+						<ul>
+							<li ng-repeat="child in section.children">
+								<md-button>
+									<div layout="row">
+										{{child.name}}
+									</div>
+								</md-button>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</md-content>
+		</md-sidenav>
+
+		<div layout="column" layout-fill>
+			<md-toolbar class="md-toolbar-tools">
+				<h2>Directory</h2>
+			</md-toolbar>
+
+			<md-content flex ng-view layout-padding></md-content>
+		</div>
+
+		<script src="bower_components/angular/angular.js"></script>
+		<script src="bower_components/angular-aria/angular-aria.js"></script>
+		<script src="bower_components/angular-route/angular-route.js"></script>
+		<script src="bower_components/angular-animate/angular-animate.js"></script>
+		<script src="bower_components/angular-material/angular-material.js"></script>
+		<script src="app.js"></script>
+		<script src="homeView/HomeCtrl.js"></script>
+		<script src="teamView/TeamCtrl.js"></script>
+	</body>
+</html>
