@@ -22,10 +22,10 @@
 					<li ng-repeat="section in menu.sections">
 						<h2 class="menu-heading">{{section.heading}}</h2>
 						<ul>
-							<li ng-repeat="child in section.children">
-								<md-button ng-click="setGroup(child)">
+							<li ng-repeat="group in section.groups">
+								<md-button ng-click="setGroup(group)">
 									<div layout="row">
-										{{child.name}}
+										{{group.name}}
 									</div>
 								</md-button>
 							</li>
@@ -37,7 +37,7 @@
 
 		<div layout="column" layout-fill>
 			<md-toolbar class="md-toolbar-tools">
-				<h2>Directory</h2>
+				<h1>Directory</h1>
 			</md-toolbar>
 
 			<md-content flex ng-view layout-padding></md-content>

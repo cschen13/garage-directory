@@ -1,6 +1,21 @@
-<md-input-container id="searchBar">
-	<label>Search for a Resident Member...</label>
-	<input ng-model="teamName" type="text">
-</md-input-container>
+<div layout="column">
+	<md-input-container id="searchBar">
+		<label>Search for a Resident Member...</label>
+		<input ng-model="query" type="text">
+	</md-input-container>
 
-<h3>{{ currentGroup.name }}</h3>
+	<md-content>
+		<!-- <div ng-if="currentGroup.name == ''"> -->
+			<div ng-repeat="section in allGroups.sections">
+<!-- 				<h2>{{ section.heading }}</h2> -->
+				<div ng-repeat="group in section.groups | filter:query">
+					<h3>{{ group.name }}</h3>
+					<div ng-repeat="member in group.members">
+						<!-- <img ng-src="{{member.picture}}"> -->
+						<a>{{member.name}}</a>
+					</div>
+				</div>
+			</div>
+		<!-- </div> -->
+	</md-content>
+</div>
