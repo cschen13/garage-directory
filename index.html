@@ -23,7 +23,7 @@
 						<h2 class="menu-heading">{{section.heading}}</h2>
 						<ul>
 							<li ng-repeat="child in section.children">
-								<md-button>
+								<md-button ng-click="setGroup(child)">
 									<div layout="row">
 										{{child.name}}
 									</div>
@@ -50,6 +50,6 @@
 		<script src="bower_components/angular-material/angular-material.js"></script>
 		<script src="app.js"></script>
 		<script src="homeView/HomeCtrl.js"></script>
-		<script src="teamView/TeamCtrl.js"></script>
+		<script src="residentView/ResidentCtrl.js"></script>
 	</body>
 </html>

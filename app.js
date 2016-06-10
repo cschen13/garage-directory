@@ -2,7 +2,7 @@ var garageApp = angular.module('garageApp', [
 	'ngMaterial',
 	'ngRoute',
 	'homeController',
-	'teamController'
+	'residentController'
 ]);
 
 garageApp.config(['$routeProvider', '$mdThemingProvider',
@@ -12,9 +12,9 @@ garageApp.config(['$routeProvider', '$mdThemingProvider',
 				templateUrl: 'homeView/home.html',
 				controller: 'HomeCtrl'
 			}).
-			when('/team', {
-				templateUrl: 'teamView/team.html',
-				controller: 'TeamCtrl'
+			when('/resident', {
+				templateUrl: 'residentView/resident.html',
+				controller: 'ResidentCtrl'
 			}).
 			otherwise({
 				redirectTo: '/'
@@ -25,8 +25,32 @@ garageApp.config(['$routeProvider', '$mdThemingProvider',
 			.accentPalette('pink');
 	}]);
 
-garageApp.controller('MainCtrl', ['$scope', 
-	function($scope) {
+garageApp.service('groupService', function() {
+	var currentGroup = { name: '', children: []};
+
+	var get = function() {
+		return currentGroup;
+	};
+
+	var set = function(g) {
+		currentGroup = g;
+	};
+
+	return {
+		set: set,
+		get: get	
+	};
+});
+
+garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
+	function($rootScope, $scope, groupService) {
+		var currentGroup = { name: '', children: []};
+
+		$scope.setGroup = function(g) {
+			groupService.set(g);
+			currentGroup = groupService.get();
+			$rootScope.$broadcast('GROUP_CHANGED', currentGroup);
+		};
 
 		var audiovert = {
 			name: 'Audiovert',
