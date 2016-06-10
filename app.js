@@ -70,7 +70,7 @@ garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
 		// Mocks
 		var audiovert = {
 			name: 'Audiovert',
-			members: [{name: 'Chris Chen'}]
+			members: [{name: 'Chris Chen', studentID: 2846283}]
 		};
 
 		var mdar = {

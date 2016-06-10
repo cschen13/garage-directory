@@ -1,21 +1,19 @@
 <div layout="column">
 	<md-input-container id="searchBar">
-		<label>Search for a Resident Member...</label>
+		<label>Search for any Resident Member<span ng-if="currentGroup.name != ''"> within {{ currentGroup.name }}</span>...</label>
 		<input ng-model="query" type="text">
 	</md-input-container>
 
 	<md-content>
-		<!-- <div ng-if="currentGroup.name == ''"> -->
-			<div ng-repeat="section in allGroups.sections">
-<!-- 				<h2>{{ section.heading }}</h2> -->
-				<div ng-repeat="group in section.groups | filter:query">
-					<h3>{{ group.name }}</h3>
-					<div ng-repeat="member in group.members">
-						<!-- <img ng-src="{{member.picture}}"> -->
-						<a>{{member.name}}</a>
-					</div>
+		<div ng-repeat="section in allGroups.sections">
+			<div ng-repeat="group in section.groups | filter : currentGroup.name">
+				<!-- <h3 ng-if="query == '' || currentGroup.name == group.name">{{ group.name }}</h3> -->
+				<h3 ng-if="(group.members | filter : query).length != 0">{{group.name}}</h3>
+				<div ng-repeat="member in group.members | filter : query">
+					<!-- <img ng-src="{{member.picture}}"> -->
+					<a>{{member.name}}</a>
 				</div>
 			</div>
-		<!-- </div> -->
+		</div>
 	</md-content>
 </div>

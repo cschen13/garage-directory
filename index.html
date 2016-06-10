@@ -19,6 +19,12 @@
 
 			<md-content flex role="navigation">
 				<ul class="menu">
+					<li>
+						<md-button ng-click="setGroup({ name: '', members: []})">
+							<div layout="row">
+								All Groups
+							</div>
+					</li>
 					<li ng-repeat="section in menu.sections">
 						<h2 class="menu-heading">{{section.heading}}</h2>
 						<ul>
@@ -37,7 +43,7 @@
 
 		<div layout="column" layout-fill>
 			<md-toolbar class="md-toolbar-tools">
-				<h1>Directory</h1>
+				Directory
 			</md-toolbar>
 
 			<md-content flex ng-view layout-padding></md-content>
