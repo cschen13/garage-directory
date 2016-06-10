@@ -59,12 +59,12 @@ garageApp.service('directoryService', function() {
 garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
 	'directoryService',
 	function($rootScope, $scope, groupService, directoryService) {
-		var currentGroup = { name: '', members: []};
+		$scope.currentGroup = { name: '', members: []};
 
 		$scope.setGroup = function(g) {
 			groupService.set(g);
-			currentGroup = groupService.get();
-			$rootScope.$broadcast('GROUP_CHANGED', currentGroup);
+			$scope.currentGroup = groupService.get();
+			$rootScope.$broadcast('GROUP_CHANGED', $scope.currentGroup);
 		};
 
 		// Mocks

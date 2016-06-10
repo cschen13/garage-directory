@@ -8,10 +8,12 @@
 		<div ng-repeat="section in allGroups.sections">
 			<div ng-repeat="group in section.groups | filter : currentGroup.name">
 				<!-- <h3 ng-if="query == '' || currentGroup.name == group.name">{{ group.name }}</h3> -->
-				<h3 ng-if="(group.members | filter : query).length != 0">{{group.name}}</h3>
-				<div ng-repeat="member in group.members | filter : query">
-					<!-- <img ng-src="{{member.picture}}"> -->
-					<a>{{member.name}}</a>
+				<h3 ng-if="(group.members | filter : query).length != 0">{{ group.name }}</h3>
+				<div layout="row">
+					<div ng-repeat="member in group.members | filter : query" flex="25">
+						<!-- <img ng-src="{{ member.picture }}"> -->
+						<a>{{ member.name }}</a>
+					</div>
 				</div>
 			</div>
 		</div>

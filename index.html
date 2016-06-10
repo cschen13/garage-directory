@@ -26,12 +26,12 @@
 							</div>
 					</li>
 					<li ng-repeat="section in menu.sections">
-						<h2 class="menu-heading">{{section.heading}}</h2>
+						<h2 class="menu-heading">{{ section.heading }}</h2>
 						<ul>
 							<li ng-repeat="group in section.groups">
 								<md-button ng-click="setGroup(group)">
 									<div layout="row">
-										{{group.name}}
+										{{ group.name }}
 									</div>
 								</md-button>
 							</li>
@@ -44,11 +44,24 @@
 		<div layout="column" layout-fill>
 			<md-toolbar class="md-toolbar-tools">
 				Directory
+				<span class="toolbar-separator" ng-if="currentGroup.name != ''">></span>
+				<span ng-if="currentGroup.name != ''">{{ currentGroup.name }}</span>
 			</md-toolbar>
 
 			<md-content flex ng-view layout-padding></md-content>
 		</div>
 
+		<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+		<script>
+			// Initialize Firebase
+			var config = {
+				apiKey: "AIzaSyCM36rew0QhnDUPJS2ottAXEl4hHrFGVL0",
+				authDomain: "the-garage-directory.firebaseapp.com",
+				databaseURL: "https://the-garage-directory.firebaseio.com",
+				storageBucket: "",
+			};
+			firebase.initializeApp(config);
+		</script>
 		<script src="bower_components/angular/angular.js"></script>
 		<script src="bower_components/angular-aria/angular-aria.js"></script>
 		<script src="bower_components/angular-route/angular-route.js"></script>

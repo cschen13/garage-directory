@@ -1,4 +1,11 @@
 /*****
+Toolbar
+*****/
+.toolbar-separator {
+	margin: 0 2% 0 2%;
+}
+
+/*****
 Side Navigation Bar
 *****/
 #sidenav  {
