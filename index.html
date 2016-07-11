@@ -10,7 +10,7 @@
 	</head>
 
 	<body layout="row" ng-controller="MainCtrl">
-		<md-sidenav id="sidenav" md-component-id="left" md-is-locked-open="true" class="md-sidenav-left md-whiteframe-4dp">
+		<md-sidenav id="sidenav" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" class="md-sidenav-left md-whiteframe-4dp">
 			<header>
 				<a ng-href="/garage-directory" class="logo">
 					<img src="assets/TheGarage.png" alt="The Garage Logo">
@@ -19,6 +19,7 @@
 
 			<md-content flex role="navigation">
 				<ul class="menu">
+					<!-- <li><a href ng-click="showLoginDialog()">Staff Sign-in</a></li> -->
 					<li>
 						<md-button ng-click="setGroup({ name: '', members: []})">
 							<div layout="row">
@@ -26,7 +27,7 @@
 							</div>
 					</li>
 					<li ng-repeat="section in menu.sections">
-						<h2 class="menu-heading">{{ section.heading }}</h2>
+						<h2 class="menu-heading">{{ section.name }}</h2>
 						<ul>
 							<li ng-repeat="group in section.groups">
 								<md-button ng-click="setGroup(group)">
@@ -43,13 +44,29 @@
 
 		<div layout="column" layout-fill>
 			<md-toolbar class="md-toolbar-tools">
-				Directory
-				<span class="toolbar-separator" ng-if="currentGroup.name != ''">></span>
-				<span ng-if="currentGroup.name != ''">{{ currentGroup.name }}</span>
+				<md-button class="md-icon-button hide-gt-sm" ng-click="openMenu()"><md-icon md-svg-src="assets/ic_menu_black_24px.svg"></md-icon></md-button>
+				<h2>Directory</h2>
+				<span class="toolbar-separator" ng-if="selectedGroup.name != ''">></span>
+				<span ng-if="selectedGroup.name != ''">{{ selectedGroup.name }}</span>
 			</md-toolbar>
 
 			<md-content flex ng-view layout-padding></md-content>
 		</div>
+
+<!-- 		<div style="visibility:hidden">
+			<div class="md-dialog-container" id="loginDialog">
+				<md-dialog>
+					<md-dialog-content>
+						<p>This is a pre-rendered dialog.</p>
+					</md-dialog-content>
+					<md-dialog-actions>
+						<md-button ng-click="closeDialog()">
+							Cancel
+						</md-button>
+					</md-dialog-actions>
+				</md-dialog>
+			</div>
+		</div> -->
 
 		<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
 		<script>

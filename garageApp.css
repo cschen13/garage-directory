@@ -6,6 +6,17 @@ Toolbar
 }
 
 /*****
+Home - Member Layouts
+*****/
+.member {
+	text-align: center;
+}
+
+.member-picture {
+	width: 100%;
+}
+
+/*****
 Side Navigation Bar
 *****/
 #sidenav  {

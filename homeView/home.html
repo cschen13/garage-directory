@@ -1,18 +1,19 @@
 <div layout="column">
 	<md-input-container id="searchBar">
-		<label>Search for any Resident Member<span ng-if="currentGroup.name != ''"> within {{ currentGroup.name }}</span>...</label>
+		<label>Search for any Resident Member<span ng-if="selectedGroup.name != ''"> within {{ selectedGroup.name }}</span>...</label>
 		<input ng-model="query" type="text">
 	</md-input-container>
 
 	<md-content>
-		<div ng-repeat="section in allGroups.sections">
-			<div ng-repeat="group in section.groups | filter : currentGroup.name">
-				<!-- <h3 ng-if="query == '' || currentGroup.name == group.name">{{ group.name }}</h3> -->
-				<h3 ng-if="(group.members | filter : query).length != 0">{{ group.name }}</h3>
-				<div layout="row">
-					<div ng-repeat="member in group.members | filter : query" flex="25">
-						<!-- <img ng-src="{{ member.picture }}"> -->
-						<a>{{ member.name }}</a>
+		<div ng-repeat="section in allGroups">
+			<div ng-repeat="group in section.groups | group : selectedGroup.name">
+				<!-- Show the group name if the member filter returns anyone, or if the group is selected.-->
+				<h3 ng-if="!isEmpty((allMembers | member : query:group)) || selectedGroup.name == group.name">{{ group.name }}</h3>
+				<div layout-gt-sm="row" layout="column" layout-align="start center">
+					<div ng-repeat="member in allMembers | member : query:group" layout-gt-sm="column" flex="25" class="member"> 
+					<!-- I wonder if I can get rid of the double filter call somehow...-->
+						<img ng-src="{{ member.picture }}" alt="headshot.jpg" class="member-picture">
+						<a>{{member.name}}</a>
 					</div>
 				</div>
 			</div>
