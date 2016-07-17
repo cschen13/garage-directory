@@ -8,17 +8,19 @@ Toolbar
 /*****
 Home - Group Layouts
 *****/
-
+.group {
+	margin-bottom: 5%;
+}
 
 /*****
 Home - Member Layouts
 *****/
 .member {
-	text-align: center;
+	width:100%;
 }
 
 .member-picture {
-	max-width:100%;
+	max-width: 100%;
 	display: block;
 	margin: 0 auto;
 }
@@ -27,7 +29,7 @@ Home - Member Layouts
 Side Navigation Bar
 *****/
 #sidenav  {
-	width:400px;
+	width: 400px;
 }
 
 .logo {
