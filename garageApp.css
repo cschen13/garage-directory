@@ -6,6 +6,11 @@ Toolbar
 }
 
 /*****
+Home - Group Layouts
+*****/
+
+
+/*****
 Home - Member Layouts
 *****/
 .member {
@@ -13,7 +18,9 @@ Home - Member Layouts
 }
 
 .member-picture {
-	width: 100%;
+	max-width:100%;
+	display: block;
+	margin: 0 auto;
 }
 
 /*****
@@ -77,13 +84,3 @@ Content Window
 #searchBar {
 	display:flex;
 }
-
-/*
-.flex {
-    flex: 1 1 0%;
-    box-sizing: border-box;
-}
-
-.layout-row {
-    flex-direction: row;
-}*/

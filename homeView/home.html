@@ -9,11 +9,25 @@
 			<div ng-repeat="group in section.groups | group : selectedGroup.name">
 				<!-- Show the group name if the member filter returns anyone, or if the group is selected.-->
 				<h3 ng-if="!isEmpty((allMembers | member : query:group)) || selectedGroup.name == group.name">{{ group.name }}</h3>
-				<div layout-gt-sm="row" layout="column" layout-align="start center">
-					<div ng-repeat="member in allMembers | member : query:group" layout-gt-sm="column" flex="25" class="member"> 
+				<div layout-gt-sm="row" layout="column" layout-align="start center" layout-wrap>
+					<div ng-repeat="member in allMembers | member : query:group" flex flex-gt-sm="50" class="member"> 
+						<md-card>
+							<md-card-title>
+								<md-card-title-text>
+									<span class="md-headline">{{ member.name }}</span>
+									<span class="md-subhead">Company Position</span>
+								</md-card-title-text>
+								<md-card-title-media>
+									<div class="md-media-lg">
+										<img ng-src="assets/ChrisChen.jpg">
+									</div>
+								</md-card-title-media>
+							</md-card-title>
+						</md-card>
+
 					<!-- I wonder if I can get rid of the double filter call somehow...-->
-						<img ng-src="{{ member.picture }}" alt="headshot.jpg" class="member-picture">
-						<a>{{member.name}}</a>
+						<!-- <img ng-src="http://placehold.it/150x150" alt="headshot.jpg" class="member-picture">
+						<a>{{member.name}}</a> -->
 					</div>
 				</div>
 			</div>

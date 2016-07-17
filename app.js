@@ -112,15 +112,27 @@ garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
 		// Authentication would allow database edits right in the web app
 		// for privileged users. The login dialog will be the starting point.
 		// $scope.showLoginDialog = function() {
-		// 	$mdDialog.show({
-		// 		contentElement: '#loginDialog',
-		// 		parent: angular.element(document.body),
-		// 		clickOutsideToClose: true
-		// 	});
+		// 	// $mdDialog.show({
+		// 	// 	contentElement: '#loginDialog',
+		// 	// 	parent: angular.element(document.body),
+		// 	// 	clickOutsideToClose: true
+		// 	// });
+
+		// 	alert = $mdDialog.alert()
+		//         .title('Attention')
+		//         .textContent('This is an example of how easy dialogs can be!')
+		//         .ok('Close');
+		//     $mdDialog
+		// 		.show( alert )
+		// 		.finally(function() {
+		// 		alert = undefined;
+		// 		});
 		// };
 
 		// $scope.closeDialog = function() {
-		// 	$mdDialog.hide();
+		// 	// $mdDialog.hide();
+		// 	$mdDialog.hide( alert, "finished" );
+  //     alert = undefined;
 		// }
 
 		////////////////MOCKS//////////
