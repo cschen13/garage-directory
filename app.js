@@ -67,6 +67,8 @@ garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
 			sections: {}
 		};
 		$scope.members = {};
+		$scope.loggedIn = false;
+		$scope.loginError = '';
 
 		// Basically grabbing all of the data from the database one time 
 		// when the page first loads.
@@ -111,29 +113,80 @@ garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
 
 		// Authentication would allow database edits right in the web app
 		// for privileged users. The login dialog will be the starting point.
-		// $scope.showLoginDialog = function() {
-		// 	// $mdDialog.show({
-		// 	// 	contentElement: '#loginDialog',
-		// 	// 	parent: angular.element(document.body),
-		// 	// 	clickOutsideToClose: true
-		// 	// });
+		$scope.showLoginDialog = function() {
+			$mdDialog.show({
+				scope: $scope,
+				preserveScope: true,
+				openFrom: '#loginButton',
+				template: 
+				'<md-dialog>' +
+				'	<md-dialog-content>' +
+				'		<div layout="column" layout-margin>' +
+				'			<h3>Staff Login</h3>' +
+				'			<md-input-container>' +
+				'				<label>Email Address</label>' +
+				'				<input md-autofocus required ng-model="email" type="email">' +
+				'			</md-input-container>' +
+				'			<md-input-container>' +
+				'				<label>Password</label>' +
+				'				<input required ng-model="password" type="password">' +
+				'			</md-input-container>' +
+				'			<p ng-show="loginError != \'\'" style="color:red">{{loginError}}</p>' +
+				'		</div>' +
+				'	</md-dialog-content>' +
+				'	<md-dialog-actions>' +
+				'		<div layout="row">' +
+				'			<md-button class="md-primary" type="button" ng-click="login(email, password)">' +
+				'				Login' +
+				'			</md-button>' +
+				'			<md-button ng-click="closeDialog()">' +
+				'				Cancel' +
+				'			</md-button>' +
+				'		</div>' +
+				'	</md-dialog-actions>' +
+				'</md-dialog>'
+			});	
+		};
 
-		// 	alert = $mdDialog.alert()
-		//         .title('Attention')
-		//         .textContent('This is an example of how easy dialogs can be!')
-		//         .ok('Close');
-		//     $mdDialog
-		// 		.show( alert )
-		// 		.finally(function() {
-		// 		alert = undefined;
-		// 		});
-		// };
+		$scope.login = function(email, password) {
+			firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+				//This error checking isn't working, and I'm not sure why.
+				var errorCode = error.code;
+				if (error.code == 'auth/argument-error') {
+					$scope.loginError = "Please enter a valid email address and password.";
+				} else if (error.code == 'auth/user-not-found') {
+					$scope.loginError = "Email address is not linked to an existing account.";
+				} else if (error.code == 'auth/wrong-password') {
+					$scope.loginError = "The password is incorrect.";
+				} else {
+					$scope.loginError = error.message;
+				}
+			});
+		};
 
-		// $scope.closeDialog = function() {
-		// 	// $mdDialog.hide();
-		// 	$mdDialog.hide( alert, "finished" );
-  //     alert = undefined;
-		// }
+		firebase.auth().onAuthStateChanged(function(user) {
+			if (user) {
+				$scope.loggedIn = true;
+				$scope.loginError = "";
+				$mdDialog.hide();
+			} else {
+				$scope.loggedIn = false;
+			}
+		});
+
+		$scope.signOut = function() {
+			firebase.auth().signOut().then(function() {
+				$scope.password = "";
+			}, function(error) {
+				console.log(error.code);
+				console.log(error.message);
+			});
+		};
+		
+
+		$scope.closeDialog = function() {
+			$mdDialog.hide();
+		};
 
 		////////////////MOCKS//////////
 		// var data = {

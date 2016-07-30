@@ -10,8 +10,9 @@
 				<!-- Show the group name if the member filter returns anyone, or if the group is selected.-->
 				<div class="group" ng-if="!isEmpty((allMembers | member : query:group)) || selectedGroup.name == group.name">
 					<h3 >{{ group.name }}</h3>
-					<div layout-gt-sm="row" layout="column" layout-align="start center" layout-wrap>
-						<div ng-repeat="member in allMembers | member : query:group" flex flex-gt-sm="50" class="member"> 
+					<div layout-gt-sm="row" layout="column" layout-align="start center" layout-wrap layout-margin>
+						<div ng-repeat="member in allMembers | member : query:group" flex flex-gt-sm="40" class="member"> 
+							<!-- I wonder if I can get rid of the double filter call somehow...-->
 							<md-card class="member">
 								<md-card-title>
 									<md-card-title-text>
@@ -26,7 +27,6 @@
 								</md-card-title>
 							</md-card>
 
-						<!-- I wonder if I can get rid of the double filter call somehow...-->
 							<!-- <img ng-src="http://placehold.it/150x150" alt="headshot.jpg" class="member-picture">
 							<a>{{member.name}}</a> -->
 						</div>

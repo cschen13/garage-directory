@@ -3,7 +3,6 @@ var homeController = angular.module('homeController', ['garageApp', 'memberFilte
 homeController.controller('HomeCtrl', ['$scope', 'groupService', 'directoryService',
 	'memberFilter', 'groupFilter',
 	function($scope, groupService, directoryService) {
-		// $scope.allGroupNames = [];
 		$scope.allMembers = {};
 		$scope.selectedGroup = groupService.get();
 		$scope.query = '';
@@ -13,16 +12,7 @@ homeController.controller('HomeCtrl', ['$scope', 'groupService', 'directoryServi
 		})
 
 		$scope.$on('GROUPS_LOADED', function(event, groups) {
-			// $scope.allGroups = groups;
 			$scope.allGroups = groups.sections;
-			// $scope.$apply(function() {
-			// 	for (section in $scope.allGroups.sections) {
-			// 		var s = $scope.allGroups.sections[section];
-			// 		for (group in s.groups) {
-			// 			$scope.allGroupNames.push(s.groups[group].name);
-			// 		}
-			// 	}
-			// });
 		});
 
 		$scope.$on('MEMBERS_LOADED', function(event, members) {
@@ -38,8 +28,6 @@ homeController.controller('HomeCtrl', ['$scope', 'groupService', 'directoryServi
 			}
 			return true && JSON.stringify(obj) === JSON.stringify({});
 		};
-
-		// $scope.test = 'This is a test.';
 	}]);
 
 // Custom filters allow me to filter the Firebase's JSON data without 
