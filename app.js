@@ -1,6 +1,7 @@
 var garageApp = angular.module('garageApp', [
 	'ngMaterial',
 	'ngRoute',
+	'ngMessages',
 	'homeController',
 	'residentController',
 ]);
@@ -67,6 +68,7 @@ garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
 			sections: {}
 		};
 		$scope.members = {};
+		$scope.loggingIn = false;
 		$scope.loggedIn = false;
 		$scope.loginError = '';
 
@@ -120,23 +122,32 @@ garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
 				openFrom: '#loginButton',
 				template: 
 				'<md-dialog>' +
+				'			<form name="loginForm">' +
 				'	<md-dialog-content>' +
 				'		<div layout="column" layout-margin>' +
 				'			<h3>Staff Login</h3>' +
-				'			<md-input-container>' +
-				'				<label>Email Address</label>' +
-				'				<input md-autofocus required ng-model="email" type="email">' +
-				'			</md-input-container>' +
-				'			<md-input-container>' +
-				'				<label>Password</label>' +
-				'				<input required ng-model="password" type="password">' +
-				'			</md-input-container>' +
+				'				<md-input-container class="md-block">' +
+				'					<label>Email Address</label>' +
+				'					<input md-autofocus required ng-model="email" name="myEmail" type="email">' +
+				'					<div ng-messages="loginForm.myEmail.$error" md-auto-hide="false" ng-show="loginForm.myEmail.$touched">' +
+				'						<div ng-message="required">An email is required for login.</div>' +
+				'						<div ng-message="email">Please provide a valid email address.</div>' +
+				'					</div>' +
+				'				</md-input-container>' +
+				'				<md-input-container class="md-block">' +
+				'					<label>Password</label>' +
+				'					<input required ng-model="password" name="password" type="password">' +
+				'					<div ng-messages="loginForm.password.$error">' +
+				'						<div ng-message="required">Password is required.</div>' +
+				'					</div>' +
+				'				</md-input-container>' +
+
 				'			<p ng-show="loginError != \'\'" style="color:red">{{loginError}}</p>' +
 				'		</div>' +
 				'	</md-dialog-content>' +
 				'	<md-dialog-actions>' +
 				'		<div layout="row">' +
-				'			<md-button class="md-primary" type="button" ng-click="login(email, password)">' +
+				'			<md-button class="md-primary" type="submit" ng-disabled="loginForm.$invalid || loggingIn" ng-click="login(email, password)">' +
 				'				Login' +
 				'			</md-button>' +
 				'			<md-button ng-click="closeDialog()">' +
@@ -144,23 +155,26 @@ garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
 				'			</md-button>' +
 				'		</div>' +
 				'	</md-dialog-actions>' +
+								'			</form>' +
 				'</md-dialog>'
 			});	
 		};
 
 		$scope.login = function(email, password) {
+			$scope.loggingIn = true;
 			firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
 				//This error checking isn't working, and I'm not sure why.
 				var errorCode = error.code;
-				if (error.code == 'auth/argument-error') {
-					$scope.loginError = "Please enter a valid email address and password.";
-				} else if (error.code == 'auth/user-not-found') {
-					$scope.loginError = "Email address is not linked to an existing account.";
-				} else if (error.code == 'auth/wrong-password') {
-					$scope.loginError = "The password is incorrect.";
-				} else {
-					$scope.loginError = error.message;
-				}
+				$scope.$apply(function() {
+					if (error.code == 'auth/user-not-found') {
+						$scope.loginError = "Email not registered.";
+					} else if (error.code == 'auth/wrong-password') {
+						$scope.loginError = "The password is incorrect.";
+					} else {
+						$scope.loginError = error.message;
+					}
+					$scope.loggingIn = false;
+				});
 			});
 		};
 
@@ -168,6 +182,7 @@ garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
 			if (user) {
 				$scope.loggedIn = true;
 				$scope.loginError = "";
+				$scope.loggingIn = false;
 				$mdDialog.hide();
 			} else {
 				$scope.loggedIn = false;
