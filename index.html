@@ -5,8 +5,10 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
+		<!--build:css styles.css-->
 		<link rel="stylesheet" href="garageApp.css">
 		<link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
+		<!-- /build -->
 	</head>
 
 	<body layout="row" ng-controller="MainCtrl">
@@ -80,6 +82,7 @@
 			};
 			firebase.initializeApp(config);
 		</script>
+		<!--build:js *.min.js -->
 		<script src="bower_components/angular/angular.min.js"></script>
 		<script src="bower_components/angular-aria/angular-aria.min.js"></script>
 		<script src="bower_components/angular-route/angular-route.min.js"></script>
@@ -89,5 +92,6 @@
 		<script src="app.js"></script>
 		<script src="homeView/HomeCtrl.js"></script>
 		<script src="residentView/ResidentCtrl.js"></script>
+		<!-- /build -->
 	</body>
 </html>

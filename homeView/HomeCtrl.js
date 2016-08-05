@@ -2,14 +2,14 @@ var homeController = angular.module('homeController', ['garageApp', 'memberFilte
 
 homeController.controller('HomeCtrl', ['$scope', 'groupService', 'directoryService',
 	'memberFilter', 'groupFilter',
-	function($scope, groupService, directoryService) {
+	function($scope, groupService, directoryService, memberFilter, groupFilter) {
 		$scope.allMembers = {};
 		$scope.selectedGroup = groupService.get();
 		$scope.query = '';
 		$scope.$on('GROUP_CHANGED', function(event, newGroup) {
 			$scope.selectedGroup = newGroup;
 			// $scope.query = newGroup.name;
-		})
+		});
 
 		$scope.$on('GROUPS_LOADED', function(event, groups) {
 			$scope.allGroups = groups.sections;
@@ -47,7 +47,7 @@ angular.module('groupFilter',[])
 			}
 		});
 		return result;
-  	}
+  	};
 });
 
 angular.module('memberFilter',[])
@@ -58,10 +58,10 @@ angular.module('memberFilter',[])
 		var result = {};
 		angular.forEach(input, function(value, key) {
 		  var actual = ('' + value.name).toLowerCase();
-		  if (actual.indexOf(expected) !== -1 && (key in group.members) && group.members[key] == true) {
+		  if (actual.indexOf(expected) !== -1 && (key in group.members) && group.members[key] === true) {
 			result[key] = value;
 		  }
 		});
 		return result;
-  	}
+  	};
 });
