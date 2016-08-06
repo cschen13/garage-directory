@@ -3,14 +3,15 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 
 		concat: {
-			distVendors: {
+			dist: {
 				src: [
-					'bower_components/**/*.min.js',
-				],
-				dest: 'dist/vendor.js'
-			},
-			distSrc: {
-				src: [
+					// 'bower_components/**/*.min.js',
+					'bower_components/angular/angular.min.js',
+					'bower_components/angular-animate/angular-animate.min.js',
+					'bower_components/angular-aria/angular-aria.min.js',
+					'bower_components/angular-material/angular-material.min.js',
+					'bower_components/angular-messages/angular-messages.min.js',
+					'bower_components/angular-ui-router/release/angular-ui-router.min.js',
 					'app.js',
 					'*View/*Ctrl.js'
 				],
@@ -25,8 +26,7 @@ module.exports = function(grunt) {
 
 			dist: {
 				files: {
-					'dist/<%= pkg.name %>.min.js': ['<%= concat.distSrc.dest %>'],
-					'dist/vendor.min.js': ['<%= concat.distVendor.dest %>']
+					'dist/scripts.js': ['<%= concat.dist.dest %>']
 				}
 			}
 		},
@@ -66,7 +66,7 @@ module.exports = function(grunt) {
 			}
 		},
 
-		clean: ['dist/garage-directory.js']
+		clean: ['dist/<%= pkg.name %>.js']
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-concat');

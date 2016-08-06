@@ -1,24 +1,24 @@
 var garageApp = angular.module('garageApp', [
 	'ngMaterial',
-	'ngRoute',
+	'ui.router',
 	'ngMessages',
 	'homeController',
 	'residentController',
 ]);
 
-garageApp.config(['$routeProvider', '$mdThemingProvider',
-	function($routeProvider, $mdThemingProvider) {
-		$routeProvider.
-			when('/', {
-				templateUrl: 'homeView/home.html',
+garageApp.config(['$stateProvider', '$urlRouterProvider', '$mdThemingProvider',
+	function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
+		$urlRouterProvider.otherwise("/");
+		$stateProvider
+			.state('home', {
+				url: "/",
+				templateUrl: "homeView/home.html",
 				controller: 'HomeCtrl'
-			}).
-			when('/resident', {
-				templateUrl: 'residentView/resident.html',
+			})
+			.state('resident', {
+				url: "/resident",
+				templateUrl: "residentView/resident.html",
 				controller: 'ResidentCtrl'
-			}).
-			otherwise({
-				redirectTo: '/'
 			});
 
 		$mdThemingProvider.theme('default')
