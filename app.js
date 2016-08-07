@@ -105,42 +105,41 @@ garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
 				preserveScope: true,
 				openFrom: '#loginButton',
 				template: 
-				'<md-dialog>' +
-				'			<form name="loginForm">' +
-				'	<md-dialog-content>' +
-				'		<div layout="column" layout-margin>' +
-				'			<h3>Staff Login</h3>' +
-				'				<md-input-container class="md-block">' +
-				'					<label>Email Address</label>' +
-				'					<input md-autofocus required ng-model="email" name="myEmail" type="email">' +
-				'					<div ng-messages="loginForm.myEmail.$error" md-auto-hide="false" ng-show="loginForm.myEmail.$touched">' +
-				'						<div ng-message="required">An email is required for login.</div>' +
-				'						<div ng-message="email">Please provide a valid email address.</div>' +
-				'					</div>' +
-				'				</md-input-container>' +
-				'				<md-input-container class="md-block">' +
-				'					<label>Password</label>' +
-				'					<input required ng-model="password" name="password" type="password">' +
-				'					<div ng-messages="loginForm.password.$error">' +
-				'						<div ng-message="required">Password is required.</div>' +
-				'					</div>' +
-				'				</md-input-container>' +
-
-				'			<p ng-show="loginError != \'\'" style="color:red">{{loginError}}</p>' +
-				'		</div>' +
-				'	</md-dialog-content>' +
-				'	<md-dialog-actions>' +
-				'		<div layout="row">' +
-				'			<md-progress-circular md-mode="indeterminate" ng-show="loggingIn"></md-progress-circular>' +
-				'			<md-button class="md-primary" type="submit" ng-disabled="loginForm.$invalid || loggingIn" ng-click="login(email, password)">' +
-				'				Login' +
-				'			</md-button>' +
-				'			<md-button ng-click="closeDialog()">' +
-				'				Cancel' +
-				'			</md-button>' +
-				'		</div>' +
-				'	</md-dialog-actions>' +
-								'			</form>' +
+				'<md-dialog flex="25">' +
+				'	<form name="loginForm">' +
+				'		<md-dialog-content>' +
+				'			<div layout="column" layout-margin>' +
+				'				<h3>Staff Login</h3>' +
+				'					<md-input-container class="md-block">' +
+				'						<label>Email Address</label>' +
+				'						<input md-autofocus required ng-model="email" name="myEmail" type="email">' +
+				'						<div ng-messages="loginForm.myEmail.$error" md-auto-hide="false" ng-show="loginForm.myEmail.$touched">' +
+				'							<div ng-message="required">An email is required for login.</div>' +
+				'							<div ng-message="email">Please provide a valid email address.</div>' +
+				'						</div>' +
+				'					</md-input-container>' +
+				'					<md-input-container class="md-block">' +
+				'						<label>Password</label>' +
+				'						<input required ng-model="password" name="password" type="password">' +
+				'						<div ng-messages="loginForm.password.$error">' +
+				'							<div ng-message="required">Password is required.</div>' +
+				'						</div>' +
+				'					</md-input-container>' +
+				'				<p ng-show="loginError != \'\'" style="color:red">{{loginError}}</p>' +
+				'			</div>' +
+				'		</md-dialog-content>' +
+				'		<md-dialog-actions>' +
+				'			<div layout="row">' +
+				'				<md-progress-circular md-mode="indeterminate" ng-show="loggingIn"></md-progress-circular>' +
+				'				<md-button class="md-primary" type="submit" ng-disabled="loginForm.$invalid || loggingIn" ng-click="login(email, password)">' +
+				'					Login' +
+				'				</md-button>' +
+				'				<md-button ng-click="closeDialog()">' +
+				'					Cancel' +
+				'				</md-button>' +
+				'			</div>' +
+				'		</md-dialog-actions>' +
+				'	</form>' +
 				'</md-dialog>'
 			});	
 		};
