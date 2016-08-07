@@ -1,8 +1,8 @@
 var homeController = angular.module('homeController', ['garageApp', 'memberFilter', 'groupFilter']);
 
-homeController.controller('HomeCtrl', ['$scope', 'groupService', 'directoryService',
+homeController.controller('HomeCtrl', ['$scope', 'groupService',
 	'memberFilter', 'groupFilter',
-	function($scope, groupService, directoryService, memberFilter, groupFilter) {
+	function($scope, groupService, memberFilter, groupFilter) {
 		$scope.allMembers = {};
 		$scope.selectedGroup = groupService.get();
 		$scope.query = '';

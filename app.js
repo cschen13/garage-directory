@@ -44,25 +44,9 @@ garageApp.service('groupService', function() {
 	};
 });
 
-// Likely isn't necessary now that I can query the database.
-// Take out in future commit.
-garageApp.service('directoryService', function() {
-	var allGroups = {};
-
-	var get = function() {
-		return allGroups;
-	};
-
-	var set = function(groups) {
-		allGroups = groups;
-	};
-
-	return { set: set, get: get};
-});
-
 garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
-	'directoryService', '$mdDialog', '$mdSidenav', '$mdMedia',
-	function($rootScope, $scope, groupService, directoryService, $mdDialog, $mdSidenav, $mdMedia) {
+	'$mdDialog', '$mdSidenav', '$mdMedia',
+	function($rootScope, $scope, groupService, $mdDialog, $mdSidenav, $mdMedia) {
 		$scope.selectedGroup = { name: '', members: []};
 		$scope.menu = {
 			sections: {}
@@ -147,6 +131,7 @@ garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
 				'	</md-dialog-content>' +
 				'	<md-dialog-actions>' +
 				'		<div layout="row">' +
+				'			<md-progress-circular md-mode="indeterminate" ng-show="loggingIn"></md-progress-circular>' +
 				'			<md-button class="md-primary" type="submit" ng-disabled="loginForm.$invalid || loggingIn" ng-click="login(email, password)">' +
 				'				Login' +
 				'			</md-button>' +
@@ -202,8 +187,5 @@ garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
 		$scope.closeDialog = function() {
 			$mdDialog.hide();
 		};
-
-		// Is this service even necessary anymore?
-		// directoryService.set($scope.menu);
 	}
 ]);
