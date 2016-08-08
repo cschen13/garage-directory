@@ -8,7 +8,6 @@ homeController.controller('HomeCtrl', ['$scope', 'groupService',
 		$scope.query = '';
 		$scope.$on('GROUP_CHANGED', function(event, newGroup) {
 			$scope.selectedGroup = newGroup;
-			// $scope.query = newGroup.name;
 		});
 
 		$scope.$on('GROUPS_LOADED', function(event, groups) {
@@ -16,6 +15,25 @@ homeController.controller('HomeCtrl', ['$scope', 'groupService',
 		});
 
 		$scope.$on('MEMBERS_LOADED', function(event, members) {
+			var storageRef = firebase.storage().ref();
+			var headshotsRef = storageRef.child('headshots');
+			angular.forEach(members, function(member, memberKey) {
+				if (member.id != null) {
+					fileName = '/' + member.id + '_'+ memberKey + '.jpg';
+					headshotsRef.child(fileName).getDownloadURL().then(function(url) {
+						member.headshotURL = url;
+					}).catch(function(error) {
+						switch (error.code) {
+							case 'storage/object_not_found':
+								console.log('No headshot found for: ' + member.name);
+							break;
+							//handle more later
+						}
+					});
+				} else {
+					console.log('No Student ID found for ' + member.name);
+				}
+			});
 			$scope.$apply(function() {
 				$scope.allMembers = members;
 			});
