@@ -11,7 +11,7 @@
 				<div class="group" ng-if="!isEmpty((allMembers | member : query:group)) || selectedGroup.name == group.name">
 					<h3 >{{ group.name }}</h3>
 					<div layout-gt-sm="row" layout="column" layout-align="start center" layout-wrap layout-margin>
-						<div ng-repeat="member in allMembers | member : query:group" flex flex-gt-sm="40" class="member"> 
+						<div ng-repeat="member in allMembers | member : query:group" flex flex-lg="40" flex-xl="20" class="member"> 
 							<!-- I wonder if I can get rid of the double filter call somehow...-->
 							<md-card class="member">
 								<md-card-title>
@@ -20,9 +20,7 @@
 										<span class="md-subhead">Company Position</span>
 									</md-card-title-text>
 									<md-card-title-media>
-										<div class="md-media-lg">
-											<img ng-src="{{ member.headshotURL }}" alt="headshot.jpg">
-										</div>
+										<img class="md-media-lg member-picture" ng-src="{{ member.headshotURL }}" alt="headshot.jpg">
 									</md-card-title-media>
 								</md-card-title>
 							</md-card>

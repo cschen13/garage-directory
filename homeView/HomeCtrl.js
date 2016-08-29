@@ -10,33 +10,12 @@ homeController.controller('HomeCtrl', ['$scope', 'groupService',
 			$scope.selectedGroup = newGroup;
 		});
 
-		$scope.$on('GROUPS_LOADED', function(event, groups) {
-			$scope.allGroups = groups.sections;
+		$scope.$on('GROUPS_LOADED', function(event, sections) {
+			$scope.allGroups = sections;
 		});
 
 		$scope.$on('MEMBERS_LOADED', function(event, members) {
-			var storageRef = firebase.storage().ref();
-			var headshotsRef = storageRef.child('headshots');
-			angular.forEach(members, function(member, memberKey) {
-				if (member.id != null) {
-					fileName = '/' + member.id + '_'+ memberKey + '.jpg';
-					headshotsRef.child(fileName).getDownloadURL().then(function(url) {
-						member.headshotURL = url;
-					}).catch(function(error) {
-						switch (error.code) {
-							case 'storage/object_not_found':
-								console.log('No headshot found for: ' + member.name);
-							break;
-							//handle more later
-						}
-					});
-				} else {
-					console.log('No Student ID found for ' + member.name);
-				}
-			});
-			$scope.$apply(function() {
-				$scope.allMembers = members;
-			});
+			$scope.allMembers = members;
 		});
 
 		$scope.isEmpty = function(obj) {
@@ -47,6 +26,8 @@ homeController.controller('HomeCtrl', ['$scope', 'groupService',
 			return true && JSON.stringify(obj) === JSON.stringify({});
 		};
 	}]);
+
+
 
 // Custom filters allow me to filter the Firebase's JSON data without 
 // worrying about turning everything into an array for Angular's built-in 

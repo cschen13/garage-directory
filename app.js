@@ -26,6 +26,67 @@ garageApp.config(['$stateProvider', '$urlRouterProvider', '$mdThemingProvider',
 			.accentPalette('pink');
 	}]);
 
+garageApp.factory('data', function dataFactory($q, $rootScope) {
+	// Basically grabbing all of the data from the database one time 
+	// when the page first loads.
+	// Could get hairy if too many people in the database. Might need
+	// to put in some sort of loading indicator in the future.
+	var data = {};
+
+	var getSections = function() {
+		firebase.database().ref('/teams').once('value').then(function(snapshot) {
+			var newTeams = snapshot.val();
+			firebase.database().ref('/staff').once('value').then(function(snapshot) {
+				var newStaff = snapshot.val();
+				data.sections = {teams: newTeams, staff: newStaff };
+
+				//Send broadcast so that HomeCtrl knows to pull the info.
+				$rootScope.$broadcast('GROUPS_LOADED', data.sections);
+			});
+		});
+	};
+
+	var getMembers = function() {
+		firebase.database().ref('/members').once('value').then(function(snapshot) {
+			var members = snapshot.val();
+			data.members = members;
+			var storageRef = firebase.storage().ref();
+			var headshotsRef = storageRef.child('headshots');
+			var promises = [];
+			angular.forEach(data.members, function(member, memberKey) {
+				if (member.id != null) {
+					fileName = '/' + member.id + '_'+ memberKey + '.jpg';
+					promises.push(
+						headshotsRef.child(fileName).getDownloadURL().then(function(url) {
+							member.headshotURL = url;
+						}).catch(function(error) {
+							switch (error.code) {
+								case 'storage/object_not_found':
+									console.log('No headshot found for: ' + member.name);
+								break;
+								//handle more later
+							}
+						})
+					);
+				} else {
+					console.log('No Student ID found for ' + member.name);
+				}
+			});
+
+			$q.all(promises).then(function() {
+				$rootScope.$broadcast('MEMBERS_LOADED', data.members);
+			});
+		});
+	};	
+
+	data.getData = function() {
+		getSections();
+		getMembers();
+	};
+
+	return data;
+});
+
 // This service is used to pass the selected group from MainCtrl to HomeCtrl.
 garageApp.service('groupService', function() {
 	var selectedGroup = { name: '', members: []};
@@ -45,42 +106,21 @@ garageApp.service('groupService', function() {
 });
 
 garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
-	'$mdDialog', '$mdSidenav', '$mdMedia',
-	function($rootScope, $scope, groupService, $mdDialog, $mdSidenav, $mdMedia) {
+	'$mdDialog', '$mdSidenav', '$mdMedia', 'data',
+	function($rootScope, $scope, groupService, $mdDialog, $mdSidenav, $mdMedia, data) {
 		$scope.selectedGroup = { name: '', members: []};
-		$scope.menu = {
-			sections: {}
-		};
-		$scope.members = {};
+		data.getData();
+		$scope.$on('GROUPS_LOADED', function(event, sections) {
+			$scope.sections = data.sections;
+		});
+
+		$scope.$on('MEMBERS_LOADED', function(event, members) {
+			$scope.members = data.members;
+		});
+		
 		$scope.loggingIn = false;
 		$scope.loggedIn = false;
 		$scope.loginError = '';
-
-		// Basically grabbing all of the data from the database one time 
-		// when the page first loads.
-		// Could get hairy if too many people in the database. Might need
-		// to put in some sort of loading indicator in the future.
-		firebase.database().ref('/teams').once('value').then(function(snapshot) {
-			var newTeams = snapshot.val();
-			firebase.database().ref('/staff').once('value').then(function(snapshot) {
-				var newStaff = snapshot.val();
-				// $apply needed to update the DOM.
-				$scope.$apply(function() {
-					$scope.menu.sections = { newTeams: newTeams, newStaff: newStaff };
-				});
-
-				// Send broadcast so that HomeCtrl knows to pull the info.
-				$rootScope.$broadcast('GROUPS_LOADED', $scope.menu);
-				firebase.database().ref('/members').once('value').then(function(snapshot) {
-					var members = snapshot.val();
-					$scope.$apply(function() {
-						$scope.members = members;
-					});
-
-					$rootScope.$broadcast('MEMBERS_LOADED', $scope.members);
-				});
-			});
-		});
 
 		// Called whenever a user selects a group from the sidenav.
 		$scope.setGroup = function(g) {
@@ -162,6 +202,15 @@ garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
 			});
 		};
 
+		$scope.signOut = function() {
+			firebase.auth().signOut().then(function() {
+				$scope.password = "";
+			}, function(error) {
+				console.log(error.code);
+				console.log(error.message);
+			});
+		};
+		
 		firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
 				$scope.loggedIn = true;
@@ -172,16 +221,6 @@ garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
 				$scope.loggedIn = false;
 			}
 		});
-
-		$scope.signOut = function() {
-			firebase.auth().signOut().then(function() {
-				$scope.password = "";
-			}, function(error) {
-				console.log(error.code);
-				console.log(error.message);
-			});
-		};
-		
 
 		$scope.closeDialog = function() {
 			$mdDialog.hide();
