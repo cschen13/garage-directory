@@ -54,23 +54,24 @@ garageApp.factory('data', function dataFactory($q, $rootScope) {
 			var headshotsRef = storageRef.child('headshots');
 			var promises = [];
 			angular.forEach(data.members, function(member, memberKey) {
-				if (member.id != null) {
-					fileName = '/' + member.id + '_'+ memberKey + '.jpg';
+				// if (member.id != null) {
+					// fileName = '/' + member.id + '_'+ memberKey + '.jpg';
+					fileName = '/' + memberKey + '.jpg';
 					promises.push(
 						headshotsRef.child(fileName).getDownloadURL().then(function(url) {
 							member.headshotURL = url;
 						}).catch(function(error) {
 							switch (error.code) {
-								case 'storage/object_not_found':
+								case 'storage/object-not-found':
 									console.log('No headshot found for: ' + member.name);
 								break;
 								//handle more later
 							}
 						})
 					);
-				} else {
-					console.log('No Student ID found for ' + member.name);
-				}
+				// } else {
+					// console.log('No Student ID found for ' + member.name);
+				// }
 			});
 
 			$q.all(promises).then(function() {
@@ -113,7 +114,6 @@ garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
 		$scope.$on('GROUPS_LOADED', function(event, sections) {
 			$scope.sections = data.sections;
 		});
-
 		$scope.$on('MEMBERS_LOADED', function(event, members) {
 			$scope.members = data.members;
 		});
