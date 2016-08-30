@@ -26,7 +26,7 @@ garageApp.config(['$stateProvider', '$urlRouterProvider', '$mdThemingProvider',
 			.accentPalette('pink');
 	}]);
 
-garageApp.factory('data', function dataFactory($q, $rootScope) {
+garageApp.factory('data', ['$q', '$rootScope', function dataFactory($q, $rootScope) {
 	// Basically grabbing all of the data from the database one time 
 	// when the page first loads.
 	// Could get hairy if too many people in the database. Might need
@@ -86,7 +86,7 @@ garageApp.factory('data', function dataFactory($q, $rootScope) {
 	};
 
 	return data;
-});
+}]);
 
 // This service is used to pass the selected group from MainCtrl to HomeCtrl.
 garageApp.service('groupService', function() {
