@@ -4,6 +4,7 @@ homeController.controller('HomeCtrl', ['$scope', 'groupService',
 	'memberFilter', 'groupFilter',
 	function($scope, groupService, memberFilter, groupFilter) {
 		$scope.allMembers = {};
+		$scope.doneLoading = false;
 		$scope.selectedGroup = groupService.get();
 		$scope.query = '';
 		$scope.$on('GROUP_CHANGED', function(event, newGroup) {
@@ -16,6 +17,7 @@ homeController.controller('HomeCtrl', ['$scope', 'groupService',
 
 		$scope.$on('MEMBERS_LOADED', function(event, members) {
 			$scope.allMembers = members;
+			$scope.doneLoading = true;
 		});
 
 		$scope.isEmpty = function(obj) {

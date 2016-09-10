@@ -5,6 +5,7 @@
 	</md-input-container>
 
 	<md-content>
+		<md-progress-circular md-mode="indeterminate" ng-show="!doneLoading"></md-progress-circular>
 		<div ng-repeat="section in allGroups">
 			<div ng-repeat="group in section.groups | group : selectedGroup.name">
 				<!-- Show the group name if the member filter returns anyone, or if the group is selected.-->
@@ -31,5 +32,10 @@
 				</div>
 			</div>
 		</div>
+		<!-- <md-fab-speed-dial class="md-fab-bottom-right">
+			<md-fab-trigger>
+				<md-button aria-label="Add..."><md-icon icon="/assets/ic_add_white_24px.svg"></md-icon></md-button>
+			</md-fab-trigger>
+		</md-fab-speed-dial> -->
 	</md-content>
 </div>
