@@ -10,9 +10,9 @@
 			<div ng-repeat="group in section.groups | group : selectedGroup.name">
 				<!-- Show the group name if the member filter returns anyone, or if the group is selected.-->
 				<div class="group" ng-if="!isEmpty((allMembers | member : query:group)) || selectedGroup.name == group.name">
-					<h3 >{{ group.name }}</h3>
+					<h3>{{ group.name }}</h3>
 					<div layout-gt-sm="row" layout="column" layout-align="start center" layout-wrap layout-margin>
-						<div ng-repeat="member in allMembers | member : query:group" flex flex-sm="40" flex-md="40" flex-lg="40" flex-xl="20" class="member"> 
+						<div ng-repeat="member in allMembers | member : query:group" flex="40" flex-xl="20" class="member"> 
 							<!-- I wonder if I can get rid of the double filter call somehow...-->
 							<md-card class="member">
 								<md-card-title>

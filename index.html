@@ -47,7 +47,7 @@
 
 		<div layout="column" layout-fill>
 			<md-toolbar class="md-toolbar-tools">
-				<md-button class="md-icon-button hide-gt-sm" ng-click="openMenu()"><md-icon md-svg-src="assets/ic_menu_white_24px.svg"></md-icon></md-button>
+				<md-button class="md-icon-button hide-gt-sm" ng-click="openMenu()" aria-label="Open Menu"><md-icon md-svg-src="assets/ic_menu_white_24px.svg"></md-icon></md-button>
 				<h2>Directory</h2>
 				<span class="toolbar-separator" ng-if="selectedGroup.name != ''">></span>
 				<span ng-if="selectedGroup.name != ''">{{ selectedGroup.name }}</span>
@@ -56,13 +56,103 @@
 			<md-content flex ui-view layout-padding>
 			</md-content>
 
-			<md-fab-speed-dial ng-show="loggedIn" class="md-fab-bottom-right">
+			<md-fab-speed-dial ng-show="loggedIn" ng-click="showAddDialog()" md-direction="up" class="md-fab-bottom-right md-scale">
 				<md-fab-trigger>
 					<md-button aria-label="Add..." class="md-fab md-primary">
 						<md-icon md-svg-src="assets/ic_add_white_24px.svg"></md-icon>
 					</md-button>
 				</md-fab-trigger>
+				<md-fab-actions>
+					<md-button aria-label="Add Resident" class="md-fab md-raised md-mini" ng-click="showAddResidentDialog()">
+						<md-icon md-svg-src="assets/ic_person_add_black_24px.svg"></md-icon>
+					</md-button>
+					<md-button aria-label="Add Team" class="md-fab md-raised md-mini" ng-click="showAddTeamDialog()">
+						<md-icon md-svg-src="assets/ic_group_add_black_24px.svg"></md-icon>
+					</md-button>
+				</md-fab-actions>
 			</md-fab-speed-dial>
+
+			<div style="visibility: hidden">
+				<div class="md-dialog-container" id="addResidentDialog">
+					<md-dialog>
+						<form name="addForm"> 
+							<md-dialog-content> 
+								<div layout="column" layout-margin> 
+									<h3>Add New Resident</h3> 
+										<md-input-container class="md-block"> 
+											<label>Name</label> 
+											<input md-autofocus required ng-model="name" name="name"> 
+										</md-input-container>
+										<md-input-container class="md-block"> 
+											<label>Team</label> 
+											<input required ng-model="team" name="team"> 
+										</md-input-container> 
+										<!-- <md-input-container class="md-block"> 
+											<label>Company Position</label>
+											<input name="companyPosition">  
+										</md-input-container> -->
+										<!-- <md-input-container>
+											<label>Profile Picture</label>
+											<input name="headshot"> 
+										</md-input-container> -->
+								</div> 
+							</md-dialog-content> 
+							<md-dialog-actions> 
+								<div layout="row">
+									<md-progress-circular md-mode="indeterminate" ng-show="isAdding"></md-progress-circular> 
+									<md-button class="md-primary" type="submit" ng-disabled="false" ng-click="addResident()"> 
+										Add 
+									</md-button> 
+									<md-button ng-click="closeDialog()"> 
+										Cancel 
+									</md-button> 
+								</div>
+							</md-dialog-actions> 
+						</form> 
+					</md-dialog>
+				</div>
+			</div>
+
+			<div style="visibility: hidden">
+				<div class="md-dialog-container" id="addTeamDialog">
+					<md-dialog>
+						<form name="addForm"> 
+							<md-dialog-content> 
+								<div layout="column" layout-margin> 
+									<h3>Add New Team</h3> 
+										<md-input-container class="md-block"> 
+											<label>Team Name</label> 
+											<input md-autofocus required name="name"> 
+										</md-input-container>
+										<!-- <md-input-container class="md-block"> 
+											<label># of Residents</label> 
+											<input required name="size" type="number" min="1" max="20"> 
+										</md-input-container> -->
+										<!-- <md-input-container class="md-block"> 
+											<label>Company Position</label>
+											<input name="companyPosition">  
+										</md-input-container> -->
+										<!-- <md-input-container>
+											<label>Profile Picture</label>
+											<input name="headshot"> 
+										</md-input-container> -->
+								</div> 
+							</md-dialog-content> 
+							<md-dialog-actions> 
+								<div layout="row">
+									<md-progress-circular md-mode="indeterminate" ng-show="isAdding"></md-progress-circular> 
+									<md-button class="md-primary" type="submit" ng-disabled="false" ng-click=""> 
+										Add 
+									</md-button> 
+									<md-button ng-click="closeDialog()"> 
+										Cancel 
+									</md-button> 
+								</div>
+							</md-dialog-actions> 
+						</form> 
+					</md-dialog>
+				</div>
+			</div>
 		</div>
 
 		<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>

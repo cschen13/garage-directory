@@ -29,8 +29,6 @@ homeController.controller('HomeCtrl', ['$scope', 'groupService',
 		};
 	}]);
 
-
-
 // Custom filters allow me to filter the Firebase's JSON data without 
 // worrying about turning everything into an array for Angular's built-in 
 // filter.

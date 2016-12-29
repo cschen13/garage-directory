@@ -48,14 +48,13 @@ garageApp.factory('data', ['$q', '$rootScope', function dataFactory($q, $rootSco
 
 	var getMembers = function() {
 		firebase.database().ref('/members').once('value').then(function(snapshot) {
-			var members = snapshot.val();
-			data.members = members;
+			data.members = snapshot.val();
 			var storageRef = firebase.storage().ref();
 			var headshotsRef = storageRef.child('headshots');
 			var promises = [];
 			angular.forEach(data.members, function(member, memberKey) {
 				// if (member.id != null) {
-					// fileName = '/' + member.id + '_'+ memberKey + '.jpg';
+				// 	fileName = '/' + member.id + '_'+ memberKey + '.jpg';
 					fileName = '/' + memberKey + '.jpg';
 					promises.push(
 						headshotsRef.child(fileName).getDownloadURL().then(function(url) {
@@ -70,7 +69,7 @@ garageApp.factory('data', ['$q', '$rootScope', function dataFactory($q, $rootSco
 						})
 					);
 				// } else {
-					// console.log('No Student ID found for ' + member.name);
+				// 	console.log('No Student ID found for ' + member.name);
 				// }
 			});
 
@@ -182,6 +181,25 @@ garageApp.controller('MainCtrl', ['$rootScope', '$scope', 'groupService',
 				'	</form>' +
 				'</md-dialog>'
 			});	
+		};
+
+		$scope.showAddResidentDialog = function() {
+			$mdDialog.show({
+				contentElement: '#addResidentDialog',
+				parent: angular.element(document.body),
+			});
+		};
+
+		$scope.addResident = function(name, team) {
+			//TODO: Add resident, need to construct new node label from the name.
+			//firebase.database.ref('members/' + )
+		};
+
+		$scope.showAddTeamDialog = function() {
+			$mdDialog.show({
+				contentElement: '#addTeamDialog',
+				parent: angular.element(document.body),
+			});
 		};
 
 		$scope.login = function(email, password) {
