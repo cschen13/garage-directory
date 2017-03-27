@@ -12,9 +12,9 @@
 				<div class="group" ng-if="!isEmpty((allMembers | member : query:group)) || selectedGroup.name == group.name">
 					<h3>{{ group.name }}</h3>
 					<div layout-gt-sm="row" layout="column" layout-align="start center" layout-wrap layout-margin>
-						<div ng-repeat="member in allMembers | member : query:group" flex="40" flex-xl="20" class="member"> 
+						<div ng-repeat="member in allMembers | member : query:group" flex="nogrow" flex-xl="20" class="member"> 
 							<!-- I wonder if I can get rid of the double filter call somehow...-->
-							<md-card class="member">
+							<md-card>
 								<md-card-title>
 									<md-card-title-text>
 										<span class="md-headline">{{ member.name }}</span>
